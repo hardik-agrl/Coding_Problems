@@ -1,0 +1,60 @@
+class Solution {
+    
+
+    public boolean isSafe(int row,int col,char[][] board, int val){
+        char charVal = (char) ('0'+val);
+        for(int i=0;i<9;i++){
+            if(board[row][i] == charVal|| board[i][col]== charVal){
+                return false;
+            }
+        }
+
+        int startrow = 3* (row/3);
+        int startcol = 3* (col/3);
+        for(int i=0;i<3;i++){
+            for(int j=0;j<3;j++){
+                if(board[startrow + i][startcol + j]== charVal){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public boolean solveSudoku(char[][] board) {
+        int n =9;
+        int index=0;
+        return (sudoku(board,index));
+        
+                    
+    }
+    
+    boolean sudoku(char[][] board, int index) {
+    if (index == 81) {
+        return true;
+    }
+
+    int i = index / 9;
+    int j = index % 9;
+
+    if (board[i][j] == '.') {
+        for (int val = 1; val <= 9; val++) {
+            if (isSafe(i, j, board, val)) {
+                board[i][j] = (char) ('0' + val);
+                if (sudoku(board, index + 1)) {
+                    return true;
+                } else {
+                    board[i][j] = '.'; 
+                }
+            }
+        }
+        return false; 
+    }
+
+    return sudoku(board, index + 1);
+}
+
+        
+}
+        
+    
